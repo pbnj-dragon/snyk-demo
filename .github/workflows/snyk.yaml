@@ -11,11 +11,12 @@ jobs:
           terraform_version: "1.5.7"
       - uses: snyk/actions/setup@master
       - run: |
-          touch ~/.aws/credentials
-          echo '${{ secrets.AWS_CREDS_FILE }}' > ~/.aws/credentials
           terraform init -upgrade
           terraform plan -out=tfplan.bin
           terraform show -json tfplan.bin > tfplan.json
           snyk iac test tfplan.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
