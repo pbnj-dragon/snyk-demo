@@ -11,7 +11,7 @@ jobs:
           terraform_version: "1.5.7"
       - uses: snyk/actions/setup@master
       - run: |
-          cat '${{ secrets.AWS_CREDS_FILE }}' > ~/.aws/credentials
+          echo '${{ secrets.AWS_CREDS_FILE }}' > ~/.aws/credentials
           terraform init -upgrade
           terraform plan -out=tfplan.bin
           terraform show -json tfplan.bin > tfplan.json
