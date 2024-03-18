@@ -1,0 +1,18 @@
+on:
+  workflow_dispatch: {}
+
+jobs:
+  snyk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.5.7"
+      - uses: snyk/actions/setup@master
+      - run: |
+          terraform plan -out=tfplan.bin
+          terraform show -json tfplan.bin > tfplan.json
+          snyk iac test tfplan.json
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
