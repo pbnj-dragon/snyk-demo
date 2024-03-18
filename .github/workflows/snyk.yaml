@@ -11,6 +11,7 @@ jobs:
           terraform_version: "1.5.7"
       - uses: snyk/actions/setup@master
       - run: |
+          terraform init -upgrade
           terraform plan -out=tfplan.bin
           terraform show -json tfplan.bin > tfplan.json
           snyk iac test tfplan.json
